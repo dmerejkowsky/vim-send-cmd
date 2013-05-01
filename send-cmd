@@ -1,0 +1,22 @@
+#!/usr/bin/python
+
+import os
+import sys
+import argparse
+
+# TODO: assume cmd.fifo already exists.
+# if not, tell user to run recieve-cmd to create it
+def send_cmd(fifo_path, cmd):
+    with open(fifo_path, "w") as fd:
+        fd.write(" ".join(cmd) + "\n")
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--fifo", required=True)
+    parser.add_argument("cmd", nargs="+")
+    args = parser.parse_args()
+    send_cmd(args.fifo, args.cmd)
+
+if __name__ == "__main__":
+    main()
+

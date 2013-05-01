@@ -1,0 +1,31 @@
+#!/usr/bin/python
+
+import sys
+import argparse
+import subprocess
+
+# TODO: create fifo at startup,
+# remove it at exit
+
+def main_loop(fifo_path):
+    while True:
+        with open(fifo_path, "r") as fd:
+            data = fd.read()
+            if not data:
+                continue
+            if data == "exit\n":
+                return
+            try:
+                subprocess.call(data, shell=True)
+            except Exception:
+                pass
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--fifo", required=True)
+    args = parser.parse_args()
+    main_loop(args.fifo)
+
+
+if __name__ == "__main__":
+    main()
