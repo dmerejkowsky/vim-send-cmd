@@ -2,20 +2,18 @@
 
 import os
 import sys
-import argparse
-
-# TODO: assume cmd.fifo already exists.
-# if not, tell user to run recieve-cmd to create it
-def send_cmd(fifo_path, cmd):
-    with open(fifo_path, "w") as fd:
-        fd.write(" ".join(cmd) + "\n")
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--fifo", required=True)
-    parser.add_argument("cmd", nargs="+")
-    args = parser.parse_args()
-    send_cmd(args.fifo, args.cmd)
+    cmd = " ".join(sys.argv[1:])
+    fifo_path = "cmd.fifo"
+    if not os.path.exists(fifo_path):
+        sys.exit("Error: could not find cmd.fifo.\n"
+                 "Make sure recieve-cmd is running")
+    try:
+        with open(fifo_path, "w") as fd:
+            fd.write(cmd + "\n")
+    except Exception as e:
+        sys.exit("Error: could not write to fifo.\n" + str(e))
 
 if __name__ == "__main__":
     main()
