@@ -24,18 +24,18 @@ In one terminal, run::
 
 From vim, run ::
 
-  :SendCmd
+  :SendCmd <command to run>
 
 And then type the command you wish to run from the input box, and watch
 the command run from the other terminal.
 
-To kill the "remote"  loop, just send the "exit" command
+To kill the "remote"  loop, just hit "ctrl-c", or run ::
+
+  :SendCmdExit
 
 
 TODO
 ----
-
-* have a real completion
 
 * find an other IPC mechanism for windows
 
