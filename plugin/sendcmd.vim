@@ -1,8 +1,8 @@
-let g:sendcmd_last_cmd = ""
-function! sendcmd#sendcmd()
-  let cmd = input("cmd: ", g:sendcmd_last_cmd, 'shellcmd')
-  execute("!send-cmd " . cmd)
-  let g:sendcmd_last_cmd = cmd
+let g:last_cmd=""
+
+function! sendcmd#sendcmd(args)
+  execute "silent !send-cmd " . a:args
+  execute "redraw!"
 endfunction
 
-command! SendCmd :call sendcmd#sendcmd()
+command! -complete=file -nargs=* SendCmd :call sendcmd#sendcmd(<q-args>)
